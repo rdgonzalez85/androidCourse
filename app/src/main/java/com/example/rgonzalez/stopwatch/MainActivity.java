@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements StopwatchInterfac
     private StopwatchThread stopwatchThread;
     private boolean isRunning = false;
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("mm:ss:SS");
+    private long totalTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,22 +25,34 @@ public class MainActivity extends AppCompatActivity implements StopwatchInterfac
 
         timeView = (TextView) findViewById(R.id.stopwatchTextView);
 
-        stopwatchThread = new StopwatchThread(MainActivity.this);
-
         final Button startButton = (Button) findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isRunning) {
                     isRunning = true;
-                    if (stopwatchThread.getState() == Thread.State.NEW) {
-                        stopwatchThread.start();
-                    }
-                    startButton.setText(R.string.stop);
+                    stopwatchThread = new StopwatchThread(MainActivity.this, totalTime);
+                    stopwatchThread.start();
+                    startButton.setText(R.string.pause);
                 } else {
                     isRunning = false;
                     stopwatchThread.pause();
+                    startButton.setText(R.string.start);
                 }
+            }
+        });
+
+        final Button stopButton = (Button) findViewById(R.id.stopButton);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (stopwatchThread != null){
+                    stopwatchThread.pause();
+                }
+                totalTime = 0;
+                startButton.setText(R.string.start);
+                isRunning = false;
+                timeView.setText(R.string.startTimer);
             }
         });
     }
@@ -50,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements StopwatchInterfac
             @Override
             public void run() {
                 timeView.setText(timeFormat.format(new Date(millis)));
+                totalTime = millis;
             }
         });
     }

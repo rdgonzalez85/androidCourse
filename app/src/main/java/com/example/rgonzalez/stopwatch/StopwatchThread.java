@@ -9,11 +9,13 @@ import static java.lang.Thread.sleep;
 public class StopwatchThread extends Thread {
     private StopwatchInterface stopwatchView;
     private boolean isRunning;
+    private long currentTime;
 
-
-    public StopwatchThread(StopwatchInterface stopwatchInterface) {
+    public StopwatchThread(StopwatchInterface stopwatchInterface, long currentTime) {
         this.stopwatchView = stopwatchInterface;
+        this.currentTime = currentTime;
     }
+
     public void run() {
         super.run();
         isRunning = true;
@@ -24,7 +26,7 @@ public class StopwatchThread extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            stopwatchView.displayTime(System.currentTimeMillis() - startTime);
+            stopwatchView.displayTime(System.currentTimeMillis() - startTime + currentTime);
         }
     }
 

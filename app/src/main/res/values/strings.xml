@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">lesson2</string>
+    <string name="activityb">activity b</string>
+    <string name="activiyc">activityC</string>
+    <string name="activiyd">activityD</string>
+    <string name="activiye">activityE</string>
+    <string name="startservice">StartService</string>
+    <string name="activity_e">Activity E</string>
+    <string name="activity_d">Activity D</string>
+    <string name="activity_c">Activity C</string>
+    <string name="textview">TextView</string>
+</resources>
